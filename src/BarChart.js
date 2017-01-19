@@ -3,7 +3,7 @@ import {
   G,
   Path,
 } from 'react-native-svg';
-import BarChart from 'paths-js/bar';
+import calculateBars from 'paths-js/bar';
 
 export default class BarChart extends Component {
   static propTypes = {
@@ -31,7 +31,7 @@ export default class BarChart extends Component {
   };
 
   render() {
-    const d = BarChart(this.props);
+    const d = calculateBars(this.props).print();
 
     return (
       <G>
