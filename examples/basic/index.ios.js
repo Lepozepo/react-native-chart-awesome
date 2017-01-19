@@ -11,6 +11,7 @@ import {
   Text,
   View
 } from 'react-native';
+import { ChartCanvas, BarChart } from 'react-native-chart-awesome';
 
 export default class basic extends Component {
   render() {
@@ -26,6 +27,11 @@ export default class basic extends Component {
           Press Cmd+R to reload,{'\n'}
           Cmd+D or shake for dev menu
         </Text>
+        <ChartCanvas>
+          <BarChart
+            data={[[{name: '1', value: 1}, {name: '2', value: 2}, {name: '3', value: 3}]]}
+          />
+        </ChartCanvas>
       </View>
     );
   }
