@@ -24,23 +24,28 @@ export default class BarChart extends Component {
 
   static defaultProps = {
     accessor(datum) {
-      return datum.value
+      return datum.value;
     },
     gutter: 0,
     offset: [0, 0],
+    width: 300,
+    height: 360,
   };
 
   render() {
-    const d = calculateBars(this.props).print();
+    const barChart = calculateBars(this.props);
 
     return (
       <G>
-        <Path
-          d={d}
-          fill="black"
-          stroke="#F5FCFF"
-          strokeWidth={1}
-        />
+        {barChart.curves.map(({ line: { path } }, key) => (
+          <Path
+            key={key}
+            d={path.print()}
+            fill="black"
+            stroke="#F5FCFF"
+            strokeWidth={1}
+          />
+        ))}
       </G>
     );
   }

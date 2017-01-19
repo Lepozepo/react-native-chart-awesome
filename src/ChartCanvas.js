@@ -10,7 +10,7 @@ export default class ChartCanvas extends Component {
 
   render() {
     return (
-      <Svg {...this.props} />
+      <Svg height={360} width={300} {...this.props} />
     );
   }
 }
