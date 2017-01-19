@@ -4,9 +4,7 @@
   "description": "A react-native charting library",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "react-native link react-native-svg",
-    "postuninstall": "react-native unlink react-native-svg"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "chart",
