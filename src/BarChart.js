@@ -28,12 +28,24 @@ export default class BarChart extends Component {
     },
     gutter: 0,
     offset: [0, 0],
-    width: 300,
-    height: 360,
+  };
+
+  static contextTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number,
+  };
+
+  getDimensions = () => {
+    const height = this.props.height || this.context.height;
+    const width = this.props.width || this.context.width;
+    return { height, width };
   };
 
   render() {
-    const barChart = calculateBars(this.props);
+    const barChart = calculateBars({
+      ...this.props,
+      ...this.getDimensions(),
+    });
 
     return (
       <G>

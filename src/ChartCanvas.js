@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Dimensions } from 'react-native';
 import {
   Svg,
 } from 'react-native-svg';
@@ -6,11 +7,35 @@ import {
 export default class ChartCanvas extends Component {
   static propTypes = {
     ...Svg.propTypes,
+    height: PropTypes.number,
+    width: PropTypes.number,
+  };
+
+  static childContextTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number,
+  };
+
+  getChildContext = () => {
+    const { height, width } = this.getChartDimensions();
+    return {
+      height,
+      width,
+    }
+  };
+
+  getChartDimensions = () => {
+    const deviceDimensions = Dimensions.get('window');
+    const height = this.props.height || deviceDimensions.height;
+    const width = this.props.width || deviceDimensions.width;
+    return { height, width };
   };
 
   render() {
+    const { width, height } = this.getChartDimensions();
+
     return (
-      <Svg height={360} width={300} {...this.props} />
+      <Svg height={height} width={width} {...this.props} />
     );
   }
 }
