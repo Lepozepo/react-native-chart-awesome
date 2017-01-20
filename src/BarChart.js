@@ -7,6 +7,7 @@ import calculateBars from 'paths-js/bar';
 
 export default class BarChart extends Component {
   static propTypes = {
+    // calculateBars props
     data: PropTypes.arrayOf(
       PropTypes.arrayOf(
         PropTypes.object
@@ -20,6 +21,10 @@ export default class BarChart extends Component {
     offset: PropTypes.array,
     max: PropTypes.number,
     min: PropTypes.number,
+    // Path Props
+    fill: Path.propTypes.fill,
+    stroke: Path.propTypes.stroke,
+    strokeWidth: Path.propTypes.strokeWidth,
   };
 
   static defaultProps = {
@@ -28,6 +33,7 @@ export default class BarChart extends Component {
     },
     gutter: 0,
     offset: [0, 0],
+    fill: 'black',
   };
 
   static contextTypes = {
@@ -41,21 +47,32 @@ export default class BarChart extends Component {
     return { height, width };
   };
 
-  render() {
-    const barChart = calculateBars({
-      ...this.props,
-      ...this.getDimensions(),
+  getBarChart = () => {
+    const { data, accessor, compute, gutter, max, min } = this.props;
+    const { height, width } = this.getDimensions();
+    return calculateBars({
+      data,
+      accessor,
+      compute,
+      height,
+      width,
+      gutter,
+      max,
+      min,
     });
+  }
 
+  render() {
+    const barChart = this.getBarChart();
     return (
       <G>
         {barChart.curves.map(({ line: { path } }, key) => (
           <Path
             key={key}
             d={path.print()}
-            fill="black"
-            stroke="#F5FCFF"
-            strokeWidth={1}
+            fill={this.props.fill}
+            stroke={this.props.stroke}
+            strokeWidth={this.props.strokeWidth}
           />
         ))}
       </G>
