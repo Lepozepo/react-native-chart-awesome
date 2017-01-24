@@ -9,50 +9,32 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ScrollView,
 } from 'react-native';
 import { ChartCanvas, BarChart } from 'react-native-chart-awesome';
 
 export default class basic extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-        <ChartCanvas>
+      <ScrollView style={styles.container}>
+        <ChartCanvas
+          height={300}
+          width={500}
+          scrollEnabled
+        >
           <BarChart
-            data={[[{name: '1', value: 1}, {name: '2', value: 2}, {name: '3', value: 3}]]}
+            data={[[1, 2, 3], [4, 5, 6]]}
           />
         </ChartCanvas>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 });
 
