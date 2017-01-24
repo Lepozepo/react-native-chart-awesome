@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, ScrollView } from 'react-native';
 import {
   Svg,
 } from 'react-native-svg';
@@ -9,6 +9,14 @@ export default class ChartCanvas extends Component {
     ...Svg.propTypes,
     height: PropTypes.number,
     width: PropTypes.number,
+    style: ScrollView.propTypes.style,
+    scrollHorizontal: ScrollView.propTypes.horizontal,
+    scrollEnabled: ScrollView.propTypes.scrollEnabled,
+  };
+
+  static defaultProps = {
+    scrollHorizontal: true,
+    scrollEnabled: false,
   };
 
   static childContextTypes = {
@@ -33,9 +41,12 @@ export default class ChartCanvas extends Component {
 
   render() {
     const { width, height } = this.getChartDimensions();
+    const { style, scrollHorizontal, scrollEnabled } = this.props;
 
     return (
-      <Svg height={height} width={width} {...this.props} />
+      <ScrollView style={style} horizontal={scrollHorizontal} scrollEnabled={scrollEnabled}>
+        <Svg height={height} width={width} {...this.props} />
+      </ScrollView>
     );
   }
 }
