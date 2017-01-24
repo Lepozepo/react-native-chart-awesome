@@ -4,15 +4,23 @@ import {
   Path,
 } from 'react-native-svg';
 import calculateBars from 'paths-js/bar';
+import isObject from 'lodash/isObject';
 
 export default class BarChart extends Component {
   static propTypes = {
     // calculateBars props
-    data: PropTypes.arrayOf(
+    data: PropTypes.oneOfType([
       PropTypes.arrayOf(
-        PropTypes.object
-      )
-    ).isRequired,
+        PropTypes.arrayOf(
+          PropTypes.object
+        )
+      ),
+      PropTypes.arrayOf(
+        PropTypes.arrayOf(
+          PropTypes.number
+        )
+      ),
+    ]).isRequired,
     accessor: PropTypes.func,
     compute: PropTypes.func,
     width: PropTypes.number,
@@ -29,7 +37,8 @@ export default class BarChart extends Component {
 
   static defaultProps = {
     accessor(datum) {
-      return datum.value;
+      if (isObject(datum)) return datum.value;
+      return datum;
     },
     gutter: 0,
     offset: [0, 0],
