@@ -20,6 +20,11 @@ export default class basic extends Component {
       console.log({index, item, group});
       return index === 0 ? 'green' : 'blue';
     },
+    onPress(index, item, group) {
+      return function() {
+        console.log({index, item, group});
+      }
+    },
   };
 
   render() {
