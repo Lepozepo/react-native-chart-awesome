@@ -15,6 +15,13 @@ import {
 import { ChartCanvas, BarChart } from 'react-native-chart-awesome';
 
 export default class basic extends Component {
+  pathProps = {
+    fill(index, item, group) {
+      console.log({index, item, group});
+      return index === 0 ? 'green' : 'blue';
+    },
+  };
+
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -25,6 +32,7 @@ export default class basic extends Component {
         >
           <BarChart
             data={[[1, 2, 3], [4, 5, 6]]}
+            pathProps={this.pathProps}
           />
         </ChartCanvas>
       </ScrollView>
