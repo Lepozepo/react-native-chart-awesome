@@ -22,7 +22,7 @@ export default class BarChart extends Component {
       ),
     ]).isRequired,
     accessor: PropTypes.func,
-    compute: PropTypes.func,
+    pathProps: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
     gutter: PropTypes.number,
@@ -57,12 +57,12 @@ export default class BarChart extends Component {
   };
 
   getBarChart = () => {
-    const { data, accessor, compute, gutter, max, min } = this.props;
+    const { data, accessor, pathProps, gutter, max, min } = this.props;
     const { height, width } = this.getDimensions();
     return calculateBars({
       data,
       accessor,
-      compute,
+      compute: pathProps,
       height,
       width,
       gutter,
@@ -75,15 +75,19 @@ export default class BarChart extends Component {
     const barChart = this.getBarChart();
     return (
       <G>
-        {barChart.curves.map(({ line: { path } }, key) => (
-          <Path
-            key={key}
-            d={path.print()}
-            fill={this.props.fill}
-            stroke={this.props.stroke}
-            strokeWidth={this.props.strokeWidth}
-          />
-        ))}
+        {barChart.curves.map((curve, key) => {
+          const { line: { path }, group, index, item, ...computedPathProps } = curve;
+          return (
+            <Path
+              key={key}
+              d={path.print()}
+              fill={this.props.fill}
+              stroke={this.props.stroke}
+              strokeWidth={this.props.strokeWidth}
+              {...computedPathProps}
+            />
+          );
+        })}
       </G>
     );
   }
