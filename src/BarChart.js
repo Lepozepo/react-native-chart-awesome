@@ -4,7 +4,7 @@ import {
   Path,
 } from 'react-native-svg';
 import calculateBars from 'paths-js/bar';
-import isObject from 'lodash/isObject';
+import isPlainObject from 'lodash/isPlainObject';
 
 export default class BarChart extends Component {
   static propTypes = {
@@ -37,7 +37,7 @@ export default class BarChart extends Component {
 
   static defaultProps = {
     accessor(datum) {
-      if (isObject(datum)) return datum.value;
+      if (isPlainObject(datum)) return datum.value;
       return datum;
     },
     gutter: 0,
@@ -57,7 +57,7 @@ export default class BarChart extends Component {
   };
 
   getBarChart = () => {
-    const { data, accessor, pathProps, gutter, max, min } = this.props;
+    const { data, accessor, pathProps, gutter, max, min, offset } = this.props;
     const { height, width } = this.getDimensions();
     return calculateBars({
       data,
@@ -68,6 +68,7 @@ export default class BarChart extends Component {
       gutter,
       max,
       min,
+      offset,
     });
   }
 
