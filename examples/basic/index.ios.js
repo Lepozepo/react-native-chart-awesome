@@ -12,10 +12,10 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import { ChartCanvas, BarChart } from 'react-native-chart-awesome';
+import { ChartCanvas, BarChart, LineChart } from 'react-native-chart-awesome';
 
 export default class basic extends Component {
-  pathProps = {
+  barPathProps = {
     fill(index, item, group) {
       console.log({index, item, group});
       return index === 0 ? 'green' : 'blue';
@@ -23,6 +23,18 @@ export default class basic extends Component {
     onPress(index, item, group) {
       return function() {
         console.log({index, item, group});
+      }
+    },
+  };
+
+  linePathProps = {
+    stroke(index, item) {
+      console.log({index, item});
+      return index === 0 ? 'black' : 'red';
+    },
+    onPress(index, item) {
+      return function() {
+        console.log({index, item});
       }
     },
   };
@@ -37,7 +49,11 @@ export default class basic extends Component {
         >
           <BarChart
             data={[[1, 2, 3], [4, 5, 6]]}
-            pathProps={this.pathProps}
+            pathProps={this.barPathProps}
+          />
+          <LineChart
+            data={[[[0, 1], [1, 3], [2, 8]], [[3, 1], [1, 2], [0, 4]]]}
+            pathProps={this.linePathProps}
           />
         </ChartCanvas>
       </ScrollView>
