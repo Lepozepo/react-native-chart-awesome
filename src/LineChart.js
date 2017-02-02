@@ -49,7 +49,7 @@ export default class LineChart extends Component {
 
   static defaultProps = {
     xaccessor(datum) {
-      if (isPlainObject(datum)) return datum.value;
+      if (isPlainObject(datum)) return datum.position;
       return datum && datum[0];
     },
     yaccessor(datum) {
@@ -94,17 +94,11 @@ export default class LineChart extends Component {
   render() {
     const { isFilled } = this.props;
     const lineChart = this.getLineChart();
-    console.log(lineChart);
     return (
       <G>
         {lineChart.curves.map((curve, key) => {
           const { line, area, index, item, ...computedPathProps } = curve;
           const d = isFilled ? area.path.print() : line.path.print();
-          console.log({
-            area: area.path.print(),
-            line: line.path.print(),
-            d,
-          });
 
           return (
             <Path
