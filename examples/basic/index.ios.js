@@ -12,12 +12,12 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import { ChartCanvas, BarChart, LineChart } from 'react-native-chart-awesome';
+import { ChartCanvas, BarChart, LineChart, Axis } from 'react-native-chart-awesome';
 
 export default class basic extends Component {
   barPathProps = {
     fill(index, item, group) {
-      console.log({index, item, group});
+      // console.log({index, item, group});
       return index === 0 ? 'green' : 'blue';
     },
     onPress(index, item, group) {
@@ -29,7 +29,7 @@ export default class basic extends Component {
 
   linePathProps = {
     stroke(index, item) {
-      console.log({index, item});
+      // console.log({index, item});
       return index === 0 ? 'black' : 'red';
     },
     onPress(index, item) {
@@ -48,6 +48,26 @@ export default class basic extends Component {
           scrollEnabled
           min={0}
           max={8}
+          fixedAxes={[
+            {
+              direction: 'vertical',
+              strokeWidth: 4,
+              stroke: 'red',
+            },
+          ]}
+          staticAxes={[
+            {
+              direction: 'horizontal',
+              strokeWidth: 4,
+              stroke: 'red',
+            },
+            {
+              direction: 'vertical',
+              position: '100%',
+              strokeWidth: 4,
+              stroke: 'red',
+            },
+          ]}
         >
           <BarChart
             data={[[1, 2, 3], [4, 5, 6]]}
