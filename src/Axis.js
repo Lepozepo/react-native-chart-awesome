@@ -1,13 +1,16 @@
 import React, { Component, PropTypes } from 'react';
+import { StyleSheet } from 'react-native';
 import newPath from 'paths-js/path';
 import {
   G,
   Path,
+  Svg,
 } from 'react-native-svg';
 import _isFinite from 'lodash/isFinite'
 
 export default class Axis extends Component {
   static propTypes = {
+    style: Svg.propTypes.style,
     width: PropTypes.number,
     height: PropTypes.number,
     direction: PropTypes.string,
@@ -95,16 +98,20 @@ export default class Axis extends Component {
 
   render() {
     const path = this.getLinePath();
+    const { width, height } = this.getDimensions();
+    const { style } = this.props;
 
     console.log(path.print());
     return (
-      <G>
-        <Path
-          d={path.print()}
-          stroke={this.props.stroke}
-          strokeWidth={this.props.strokeWidth}
-        />
-      </G>
+      <Svg height={height} width={width} style={[StyleSheet.absoluteFill, style]}>
+        <G>
+          <Path
+            d={path.print()}
+            stroke={this.props.stroke}
+            strokeWidth={this.props.strokeWidth}
+          />
+        </G>
+      </Svg>
     );
   }
 }

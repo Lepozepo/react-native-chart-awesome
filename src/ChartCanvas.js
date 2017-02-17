@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
-import { Dimensions, ScrollView } from 'react-native';
+import { Dimensions, ScrollView, View } from 'react-native';
 import {
   Svg,
 } from 'react-native-svg';
+import Axis from './Axis';
 
 export default class ChartCanvas extends Component {
   static propTypes = {
@@ -14,11 +15,15 @@ export default class ChartCanvas extends Component {
     scrollEnabled: ScrollView.propTypes.scrollEnabled,
     min: PropTypes.number,
     max: PropTypes.number,
+    fixedAxes: PropTypes.arrayOf(PropTypes.shape(Axis.propTypes)),
+    staticAxes: PropTypes.arrayOf(PropTypes.shape(Axis.propTypes)),
   };
 
   static defaultProps = {
     scrollHorizontal: true,
     scrollEnabled: false,
+    fixedAxes: [],
+    staticAxes: [],
   };
 
   static childContextTypes = {
@@ -49,12 +54,24 @@ export default class ChartCanvas extends Component {
 
   render() {
     const { width, height } = this.getChartDimensions();
-    const { style, scrollHorizontal, scrollEnabled } = this.props;
+    const { style, scrollHorizontal, scrollEnabled, fixedAxes, staticAxes, ...svgProps } = this.props;
 
     return (
-      <ScrollView style={style} horizontal={scrollHorizontal} scrollEnabled={scrollEnabled}>
-        <Svg height={height} width={width} {...this.props} />
-      </ScrollView>
+      <View style={style}>
+        {fixedAxes.map((axisProps, key) => (
+          <Axis key={key} {...axisProps} />
+        ))}
+        <ScrollView horizontal={scrollHorizontal} scrollEnabled={scrollEnabled}>
+          <Svg
+            height={height}
+            width={width}
+            {...svgProps}
+          />
+          {staticAxes.map((axisProps, key) => (
+            <Axis key={key} {...axisProps} />
+          ))}
+        </ScrollView>
+      </View>
     );
   }
 }
