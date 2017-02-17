@@ -12,6 +12,8 @@ export default class ChartCanvas extends Component {
     style: ScrollView.propTypes.style,
     scrollHorizontal: ScrollView.propTypes.horizontal,
     scrollEnabled: ScrollView.propTypes.scrollEnabled,
+    min: PropTypes.number,
+    max: PropTypes.number,
   };
 
   static defaultProps = {
@@ -22,13 +24,19 @@ export default class ChartCanvas extends Component {
   static childContextTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
+    min: PropTypes.number,
+    max: PropTypes.number,
   };
 
   getChildContext = () => {
     const { height, width } = this.getChartDimensions();
+    const { min, max } = this.props;
+
     return {
       height,
       width,
+      min,
+      max,
     }
   };
 

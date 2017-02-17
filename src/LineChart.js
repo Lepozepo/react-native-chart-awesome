@@ -66,6 +66,14 @@ export default class LineChart extends Component {
   static contextTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
+    min: PropTypes.number,
+    max: PropTypes.number,
+  };
+
+  getMinMax = () => {
+    const min = this.props.min || this.context.min;
+    const max = this.props.max || this.context.max;
+    return { min, max };
   };
 
   getDimensions = () => {
@@ -75,7 +83,8 @@ export default class LineChart extends Component {
   };
 
   getLineChart = () => {
-    const { data, xaccessor, yaccessor, pathProps, max, min, sort, closed } = this.props;
+    const { data, xaccessor, yaccessor, pathProps, sort, closed } = this.props;
+    const { min, max } = this.getMinMax();
     const { height, width } = this.getDimensions();
     return calculateLines({
       data,
