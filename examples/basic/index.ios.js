@@ -46,6 +46,8 @@ export default class basic extends Component {
           height={300}
           width={500}
           scrollEnabled
+          min={0}
+          max={8}
         >
           <BarChart
             data={[[1, 2, 3], [4, 5, 6]]}
