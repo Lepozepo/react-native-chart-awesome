@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   G,
   Path,
@@ -101,7 +102,7 @@ export default class LineChart extends Component {
   }
 
   render() {
-    const { isFilled } = this.props;
+    const { isFilled, children } = this.props;
     const lineChart = this.getLineChart();
     return (
       <G>
@@ -120,6 +121,7 @@ export default class LineChart extends Component {
             />
           );
         })}
+        {children}
       </G>
     );
   }

@@ -48,26 +48,6 @@ export default class basic extends Component {
           scrollEnabled
           min={0}
           max={8}
-          fixedAxes={[
-            {
-              direction: 'vertical',
-              strokeWidth: 4,
-              stroke: 'red',
-            },
-          ]}
-          staticAxes={[
-            {
-              direction: 'horizontal',
-              strokeWidth: 4,
-              stroke: 'red',
-            },
-            {
-              direction: 'vertical',
-              position: '100%',
-              strokeWidth: 4,
-              stroke: 'red',
-            },
-          ]}
         >
           <BarChart
             data={[[1, 2, 3], [4, 5, 6]]}
@@ -76,6 +56,22 @@ export default class basic extends Component {
           <LineChart
             data={[[[0, 1], [1, 3], [2, 8]], [[3, 1], [1, 2], [0, 4]]]}
             pathProps={this.linePathProps}
+          />
+          <Axis
+            direction="horizontal"
+            stroke="red"
+            strokeWidth={4}
+            position={'20%'}
+            ticks={['category1', 'category2', 'category3']}
+            tickLength={2}
+          />
+          <Axis
+            direction="vertical"
+            stroke="red"
+            strokeWidth={4}
+            min={0}
+            max={8}
+            ticks={4}
           />
         </ChartCanvas>
       </ScrollView>

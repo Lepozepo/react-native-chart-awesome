@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet } from 'react-native';
 import newPath from 'paths-js/path';
 import {
@@ -20,6 +21,18 @@ export default class Axis extends Component {
     ]),
     stroke: Path.propTypes.stroke,
     strokeWidth: Path.propTypes.strokeWidth,
+    ticks: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number,
+        ])
+      )
+    ]),
+    min: PropTypes.number,
+    max: PropTypes.number,
+    tickLength: PropTypes.number,
   };
 
   static defaultProps = {
@@ -27,6 +40,7 @@ export default class Axis extends Component {
     position: '0%',
     stroke: 'black',
     strokeWidth: 1,
+    tickLength: 2,
   };
 
   static contextTypes = {
@@ -77,7 +91,7 @@ export default class Axis extends Component {
 
   getLinePath = () => {
     const { width, height } = this.getDimensions();
-    const { position, strokeWidth, direction } = this.props;
+    const { position, direction } = this.props;
     const axisPosition = this.getAxisPosition();
 
     let path = '';
@@ -96,6 +110,46 @@ export default class Axis extends Component {
     return path;
   };
 
+  renderTicks = () => {
+    const { ticks, direction, tickLength } = this.props;
+    if (_isFinite(ticks)) return null;
+
+    const { width, height } = this.getDimensions();
+    const axisPosition = this.getAxisPosition();
+
+    const amountOfTicks = ticks.length;
+
+    return ticks.map((tick, tickId) => {
+      let path;
+      switch (direction) {
+        case 'vertical': {
+          const tickOffset = height / amountOfTicks;
+          const tickPositionY = (tickId + 1) * tickOffset;
+          path = newPath()
+            .moveto(axisPosition, tickPositionY)
+            .hlineto(tickLength);
+          break;
+        }
+        case 'horizontal':
+        default: {
+          const tickOffset = width / amountOfTicks;
+          const tickPositionX = (tickId + 1) * tickOffset;
+          path = newPath()
+            .moveto(tickPositionX, axisPosition)
+            .vlineto(tickLength);
+        }
+      }
+
+      return (
+        <Path
+          d={path.print()}
+          stroke={this.props.stroke}
+          strokeWidth={this.props.strokeWidth}
+        />
+      )
+    });
+  };
+
   render() {
     const path = this.getLinePath();
     const { width, height } = this.getDimensions();
@@ -103,15 +157,14 @@ export default class Axis extends Component {
 
     console.log(path.print());
     return (
-      <Svg height={height} width={width} style={[StyleSheet.absoluteFill, style]}>
-        <G>
-          <Path
-            d={path.print()}
-            stroke={this.props.stroke}
-            strokeWidth={this.props.strokeWidth}
-          />
-        </G>
-      </Svg>
+      <G>
+        <Path
+          d={path.print()}
+          stroke={this.props.stroke}
+          strokeWidth={this.props.strokeWidth}
+        />
+        {this.renderTicks()}
+      </G>
     );
   }
 }

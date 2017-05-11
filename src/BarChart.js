@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   G,
   Path,
@@ -83,6 +84,7 @@ export default class BarChart extends Component {
 
   render() {
     const barChart = this.getBarChart();
+    const { children } = this.props;
     return (
       <G>
         {barChart.curves.map((curve, key) => {
@@ -98,6 +100,7 @@ export default class BarChart extends Component {
             />
           );
         })}
+        {children}
       </G>
     );
   }
