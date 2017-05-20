@@ -2,10 +2,6 @@ machine:
   node:
     version: 7.10.0
 
-dependencies:
-  pre:
-    - npm install -g npm@3.x.x
-
 test:
   override:
     - npm run test

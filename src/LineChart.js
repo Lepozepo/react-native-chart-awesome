@@ -20,12 +20,14 @@ export default class LineChart extends Component {
       ),
       PropTypes.arrayOf(
         PropTypes.arrayOf(
-          PropTypes.arrayOf(function(propValue, key, componentName, location, propFullName) {
+          PropTypes.arrayOf((propValue, key, componentName, location, propFullName) => {
             if (propValue.length !== 2 && !every(propValue, _isFinite)) {
-              return new Error(`Invalid prop ${propFullName} supplied to ${componentName}. If you are passing
-                an array of arrays of arrays, the last array must be two numbers.
+              return new Error(`
+                Invalid prop ${propFullName} supplied to ${componentName}.
+                If you are passing an array of arrays of arrays, the last array must be two numbers.
               `);
             }
+            return true;
           })
         )
       ),
@@ -46,6 +48,7 @@ export default class LineChart extends Component {
     strokeWidth: Path.propTypes.strokeWidth,
     // Custom
     isFilled: PropTypes.bool,
+    children: PropTypes.node,
   };
 
   static defaultProps = {
@@ -107,7 +110,7 @@ export default class LineChart extends Component {
     return (
       <G>
         {lineChart.curves.map((curve, key) => {
-          const { line, area, index, item, ...computedPathProps } = curve;
+          const { line, area, index, item, ...computedPathProps } = curve; // eslint-disable-line
           const d = isFilled ? area.path.print() : line.path.print();
 
           return (
