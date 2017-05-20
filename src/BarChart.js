@@ -34,6 +34,7 @@ export default class BarChart extends Component {
     fill: Path.propTypes.fill,
     stroke: Path.propTypes.stroke,
     strokeWidth: Path.propTypes.strokeWidth,
+    children: PropTypes.node,
   };
 
   static defaultProps = {
@@ -88,7 +89,7 @@ export default class BarChart extends Component {
     return (
       <G>
         {barChart.curves.map((curve, key) => {
-          const { line: { path }, group, index, item, ...computedPathProps } = curve;
+          const { line: { path }, group, index, item, ...computedPathProps } = curve; // eslint-disable-line
           return (
             <Path
               key={key}

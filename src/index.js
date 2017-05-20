@@ -8,4 +8,4 @@ export {
   BarChart,
   LineChart,
   Axis,
-}
+};
