@@ -39,7 +39,7 @@ export default class Axis extends Component {
     position: '0%',
     stroke: 'black',
     strokeWidth: 1,
-    tickLength: 2,
+    tickLength: 12,
   };
 
   static contextTypes = {
@@ -126,7 +126,7 @@ export default class Axis extends Component {
           const tickPositionY = (tickId + 1) * tickOffset;
           path = newPath()
             .moveto(axisPosition, tickPositionY)
-            .hlineto(tickLength);
+            .hlineto(width - axisPosition - tickLength);
           break;
         }
         case 'horizontal':
@@ -135,12 +135,14 @@ export default class Axis extends Component {
           const tickPositionX = (tickId + 1) * tickOffset;
           path = newPath()
             .moveto(tickPositionX, axisPosition)
-            .vlineto(tickLength);
+            .lineto(tickPositionX, axisPosition + tickLength);
+          console.log(path.print());
         }
       }
 
       return (
         <Path
+          key={tickId}
           d={path.print()}
           stroke={this.props.stroke}
           strokeWidth={this.props.strokeWidth}
