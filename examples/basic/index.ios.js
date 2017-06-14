@@ -63,7 +63,7 @@ export default class basic extends Component {
             strokeWidth={4}
             position={'20%'}
             ticks={['category1', 'category2', 'category3']}
-            tickLength={2}
+            tickLength={12}
           />
           <Axis
             direction="vertical"
