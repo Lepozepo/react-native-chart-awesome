@@ -65,6 +65,7 @@ export default class LineChart extends Component {
     strokeWidth: 2,
     fill: 'none',
     isFilled: false,
+    closed: false,
   };
 
   static contextTypes = {

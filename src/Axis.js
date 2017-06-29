@@ -20,15 +20,12 @@ export default class Axis extends Component {
     ]),
     stroke: Path.propTypes.stroke,
     strokeWidth: Path.propTypes.strokeWidth,
-    ticks: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.number,
-        ])
-      ),
-    ]),
+    ticks: PropTypes.arrayOf(
+      PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+      ])
+    ),
     min: PropTypes.number,
     max: PropTypes.number,
     tickLength: PropTypes.number,
@@ -111,8 +108,6 @@ export default class Axis extends Component {
 
   renderTicks = () => {
     const { ticks, direction, tickLength } = this.props;
-    if (_isFinite(ticks)) return null;
-
     const { width, height } = this.getDimensions();
     const axisPosition = this.getAxisPosition();
 
@@ -126,17 +121,16 @@ export default class Axis extends Component {
           const tickPositionY = (tickId + 1) * tickOffset;
           path = newPath()
             .moveto(axisPosition, tickPositionY)
-            .hlineto(width - axisPosition - tickLength);
+            .lineto(axisPosition + tickLength, tickPositionY);
           break;
         }
         case 'horizontal':
         default: {
           const tickOffset = width / amountOfTicks;
-          const tickPositionX = (tickId + 1) * tickOffset;
+          const tickPositionX = ((tickId + 1) * tickOffset) / 2;
           path = newPath()
             .moveto(tickPositionX, axisPosition)
             .lineto(tickPositionX, axisPosition + tickLength);
-          console.log(path.print());
         }
       }
 

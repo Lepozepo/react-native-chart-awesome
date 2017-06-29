@@ -5,6 +5,7 @@ import {
   Path,
 } from 'react-native-svg';
 import calculateBars from 'paths-js/bar';
+import calculateStackedBars from 'paths-js/stack';
 import isPlainObject from 'lodash/isPlainObject';
 
 export default class BarChart extends Component {
@@ -35,6 +36,7 @@ export default class BarChart extends Component {
     stroke: Path.propTypes.stroke,
     strokeWidth: Path.propTypes.strokeWidth,
     children: PropTypes.node,
+    isStacked: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -45,6 +47,7 @@ export default class BarChart extends Component {
     gutter: 0,
     offset: [0, 0],
     fill: 'black',
+    isStacked: false,
   };
 
   static contextTypes = {
@@ -67,9 +70,23 @@ export default class BarChart extends Component {
   };
 
   getBarChart = () => {
-    const { data, accessor, pathProps, gutter, offset } = this.props;
+    const { data, accessor, pathProps, gutter, offset, isStacked } = this.props;
     const { min, max } = this.getMinMax();
     const { height, width } = this.getDimensions();
+    if (isStacked) {
+      return calculateStackedBars({
+        data,
+        accessor,
+        compute: pathProps,
+        height,
+        width,
+        gutter,
+        max,
+        min,
+        offset,
+      });
+    }
+
     return calculateBars({
       data,
       accessor,

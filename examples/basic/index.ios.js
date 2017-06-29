@@ -8,34 +8,43 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  Text,
-  View,
   ScrollView,
 } from 'react-native';
-import { ChartCanvas, BarChart, LineChart, Axis } from 'react-native-chart-awesome';
+import {
+  ChartCanvas,
+  BarChart,
+} from 'react-native-chart-awesome';
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#F5FCFF',
+  },
+});
 
 export default class basic extends Component {
   barPathProps = {
     fill(index, item, group) {
-      // console.log({index, item, group});
-      return index === 0 ? 'green' : 'blue';
+      console.log({ index, item, group });
+      return index === 0 ? 'black' : 'gray';
     },
     onPress(index, item, group) {
-      return function() {
-        console.log({index, item, group});
-      }
+      return function () {
+        console.log({ index, item, group });
+      };
     },
   };
 
-  linePathProps = {
-    stroke(index, item) {
-      // console.log({index, item});
-      return index === 0 ? 'black' : 'red';
+  stackedBarPathProps = {
+    fill(index, item, group) {
+      if (group === 0) return '#34403A';
+      if (group === 1) return '#285238';
+      if (group === 2) return '#138A36';
+      return '#04E824';
     },
-    onPress(index, item) {
-      return function() {
-        console.log({index, item});
-      }
+    onPress(index, item, group) {
+      return function () {
+        console.log({ index, item, group });
+      };
     },
   };
 
@@ -53,36 +62,23 @@ export default class basic extends Component {
             data={[[1, 2, 3], [4, 5, 6]]}
             pathProps={this.barPathProps}
           />
-          <LineChart
-            data={[[[0, 1], [1, 3], [2, 8]], [[3, 1], [1, 2], [0, 4]]]}
-            pathProps={this.linePathProps}
-          />
-          <Axis
-            direction="horizontal"
-            stroke="red"
-            strokeWidth={4}
-            position={'20%'}
-            ticks={['category1', 'category2', 'category3']}
-            tickLength={12}
-          />
-          <Axis
-            direction="vertical"
-            stroke="red"
-            strokeWidth={4}
-            min={0}
-            max={8}
-            ticks={4}
+        </ChartCanvas>
+        <ChartCanvas
+          height={300}
+          width={500}
+          scrollEnabled
+          min={0}
+          max={30}
+        >
+          <BarChart
+            data={[[4, 2, 6, 4], [1, 5, 8, 1], [3, 7, 2, 7], [9, 1, 5, 2]]}
+            pathProps={this.stackedBarPathProps}
+            isStacked
           />
         </ChartCanvas>
       </ScrollView>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#F5FCFF',
-  },
-});
 
 AppRegistry.registerComponent('basic', () => basic);
