@@ -1,5 +1,7 @@
 ## React Native Chart Awesome
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Lepozepo/react-native-chart-awesome.svg)](https://greenkeeper.io/)
+
 ### Documentation
 
 #### ChartCanvas
